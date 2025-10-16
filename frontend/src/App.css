@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background: radial-gradient(circle at top, #0b0f19, #000);
+  color: #f5f5f5;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* 🌌 Split Layout */
+.split-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 40px 60px;
+  gap: 40px;
+}
+
+.text-panel {
+  flex: 1;
+  max-width: 45%;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.sim-panel {
+  flex: 1;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ⚡ Headings */
+.main-heading {
+  font-size: 2.8rem;
+  color: #4fc3f7;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px #2196f3;
+  text-align: left;
+}
+
+.text-panel h2 {
+  color: #90caf9;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.text-panel p {
+  line-height: 1.7;
+  color: #d0e2ff;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.reaction-box {
+  background: rgba(50, 80, 120, 0.25);
+  padding: 12px;
+  border-left: 4px solid #42a5f5;
+  border-radius: 8px;
+  font-family: monospace;
+  color: #e3f2fd;
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(66, 165, 245, 0.2);
+}
+
+/* 🧪 Beaker Simulation */
+.beaker {
+  position: relative;
+  width: 200px;
+  height: 250px;
+  margin: 20px 0;
+  border: 4px solid #42a5f5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(25, 25, 35, 0.9);
+  box-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+}
+
+.liquid {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70%;
+  background: rgba(33, 150, 243, 0.7);
+  transition: all 0.3s ease;
+}
+
+.electrode {
+  position: absolute;
+  top: 20px;
+  width: 15px;
+  height: 100px;
+  background: #888;
+  border-radius: 4px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.electrode.left {
+  left: 30px;
+}
+
+.electrode.right {
+  right: 30px;
+}
+
+.plating {
+  background: gold !important;
+  box-shadow: 0 0 10px gold;
+}
+
+/* 🔘 Controls */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.slider-group label {
+  font-size: 16px;
+  color: #90caf9;
+  font-weight: 500;
+}
+
+input[type="range"] {
+  width: 220px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(66, 165, 245, 0.2);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #42a5f5;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(66, 165, 245, 0.5);
+}
+
+/* 🔵 Button */
+button {
+  background: linear-gradient(90deg, #1976d2, #0d47a1);
+  color: white;
+  border: none;
+  padding: 14px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(33, 150, 243, 0.4);
+}
+
+button:hover {
+  background: linear-gradient(90deg, #42a5f5, #1e88e5);
+  transform: scale(1.06);
+  box-shadow: 0 0 20px rgba(79, 195, 247, 0.8);
+}
+
+/* 📊 Results */
+.results-section {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.result {
+  font-weight: bold;
+  color: #bbdefb;
+  text-shadow: 0 0 6px #42a5f5;
+}
+
+.deposited-mass {
+  color: #cfe9ff;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+/* ✨ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive Layout */
+@media (max-width: 900px) {
+  .split-container {
+    flex-direction: column;
+    padding: 30px 20px;
+    height: auto;
+  }
+
+  .text-panel,
+  .sim-panel {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .main-heading {
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  .beaker {
+    width: 200px;
+    height: 200px;
+  }
+}
