@@ -9,44 +9,66 @@ body {
   min-height: 100vh;
 }
 
-/* 🌌 Split Layout */
+/* 🌌 Updated Split Layout - Mobile First */
 .split-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Stack vertically on all screens */
+  justify-content: flex-start;
   align-items: center;
-  height: 100vh;
-  padding: 40px 60px;
-  gap: 40px;
+  min-height: 100vh;
+  padding: 20px;
+  gap: 30px;
 }
 
 .text-panel {
-  flex: 1;
-  max-width: 45%;
+  width: 100%;
+  max-width: 800px; /* Limit width on larger screens */
+  order: 2; /* Text comes after beaker */
   animation: fadeIn 1.2s ease-in-out;
 }
 
 .sim-panel {
-  flex: 1;
-  max-width: 50%;
+  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  order: 1; /* Beaker comes first */
 }
 
-/* ⚡ Headings */
-.main-heading {
-  font-size: 2.8rem;
-  color: #4fc3f7;
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px #2196f3;
-  text-align: left;
+/* 🔥 NEW: Blue Color Box Heading */
+.simulation-heading {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
+.heading-box {
+  background: linear-gradient(135deg, #1976d2, #0d47a1); /* Blue gradient background */
+  border-radius: 12px;
+  padding: 20px 40px;
+  display: inline-block;
+  box-shadow: 0 0 25px rgba(33, 150, 243, 0.6);
+  backdrop-filter: blur(10px);
+  border: none; /* Remove border */
+}
+
+.heading-box .main-heading {
+  font-size: 2.5rem;
+  color: #ffffff; /* White text */
+  margin: 0;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ⚡ Text Panel Styling */
 .text-panel h2 {
   color: #90caf9;
   font-weight: 600;
   margin-bottom: 10px;
+  text-align: center; /* Center align for mobile */
 }
 
 .text-panel p {
@@ -54,6 +76,7 @@ body {
   color: #d0e2ff;
   font-size: 1rem;
   margin-bottom: 12px;
+  text-align: justify; /* Better readability */
 }
 
 .reaction-box {
@@ -67,94 +90,13 @@ body {
   box-shadow: 0 0 10px rgba(66, 165, 245, 0.2);
 }
 
-/* 🧪 Beaker Simulation */
-.beaker {
-  position: relative;
-  width: 200px;
-  height: 250px;
-  margin: 20px 0;
-  border: 4px solid #42a5f5;
-  border-radius: 10px;
-  overflow: hidden;
-  background: rgba(25, 25, 35, 0.9);
-  box-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+/* 🧪 Beaker Canvas Responsive */
+.sim-panel canvas {
+  max-width: 100%;
+  height: auto;
 }
 
-.liquid {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 70%;
-  background: rgba(33, 150, 243, 0.7);
-  transition: all 0.3s ease;
-}
-
-.electrode {
-  position: absolute;
-  top: 20px;
-  width: 15px;
-  height: 100px;
-  background: #888;
-  border-radius: 4px;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-.electrode.left {
-  left: 30px;
-}
-
-.electrode.right {
-  right: 30px;
-}
-
-.plating {
-  background: gold !important;
-  box-shadow: 0 0 10px gold;
-}
-
-/* 🔘 Controls */
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
-  align-items: center;
-}
-
-.slider-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.slider-group label {
-  font-size: 16px;
-  color: #90caf9;
-  font-weight: 500;
-}
-
-input[type="range"] {
-  width: 220px;
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(66, 165, 245, 0.2);
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #42a5f5;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(66, 165, 245, 0.5);
-}
-
-/* 🔵 Button */
+/* 🔘 Button responsive */
 button {
   background: linear-gradient(90deg, #1976d2, #0d47a1);
   color: white;
@@ -166,6 +108,9 @@ button {
   font-weight: 500;
   transition: all 0.3s ease;
   box-shadow: 0 0 15px rgba(33, 150, 243, 0.4);
+  width: 100%; /* Full width on mobile */
+  max-width: 300px; /* But not too wide */
+  margin-top: 20px;
 }
 
 button:hover {
@@ -174,23 +119,11 @@ button:hover {
   box-shadow: 0 0 20px rgba(79, 195, 247, 0.8);
 }
 
-/* 📊 Results */
-.results-section {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.result {
-  font-weight: bold;
-  color: #bbdefb;
-  text-shadow: 0 0 6px #42a5f5;
-}
-
-.deposited-mass {
-  color: #cfe9ff;
-  font-size: 16px;
-  font-weight: 500;
-  margin-top: 5px;
+button:disabled {
+  background: linear-gradient(90deg, #666, #444);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* ✨ Animations */
@@ -205,27 +138,96 @@ button:hover {
   }
 }
 
-/* 📱 Responsive Layout */
-@media (max-width: 900px) {
-  .split-container {
-    flex-direction: column;
-    padding: 30px 20px;
-    height: auto;
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(33, 150, 243, 0.6);
   }
+  50% {
+    box-shadow: 0 0 35px rgba(33, 150, 243, 0.9);
+  }
+}
 
+.heading-box {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* 📱 Tablet Layout (768px and up) */
+@media (min-width: 768px) {
+  .split-container {
+    padding: 40px;
+    gap: 40px;
+  }
+  
+  .heading-box .main-heading {
+    font-size: 2.8rem;
+  }
+  
+  .text-panel h2 {
+    text-align: left; /* Left align on tablets */
+  }
+  
+  .text-panel p {
+    text-align: left;
+  }
+  
+  button {
+    width: auto; /* Auto width on tablets */
+  }
+}
+
+/* 🖥️ Desktop Layout (1024px and up) */
+@media (min-width: 1024px) {
+  .split-container {
+    flex-direction: column; /* Still vertical stack */
+    justify-content: flex-start;
+    padding: 40px 60px;
+  }
+  
   .text-panel,
   .sim-panel {
-    max-width: 100%;
-    text-align: center;
+    max-width: 900px; /* Slightly wider on desktop */
   }
+}
 
-  .main-heading {
-    text-align: center;
+/* 📏 Fixed canvas size for consistency */
+.sim-panel canvas {
+  width: 600px;
+  height: 420px;
+}
+
+/* 📱 Adjust canvas for smaller screens */
+@media (max-width: 768px) {
+  .sim-panel canvas {
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+  }
+  
+  .heading-box .main-heading {
     font-size: 2rem;
   }
+  
+  .heading-box {
+    padding: 15px 30px;
+  }
+}
 
-  .beaker {
-    width: 200px;
-    height: 200px;
+@media (max-width: 480px) {
+  .sim-panel canvas {
+    max-width: 350px;
+    height: 300px;
+  }
+  
+  .heading-box .main-heading {
+    font-size: 1.6rem;
+  }
+  
+  .heading-box {
+    padding: 12px 20px;
+  }
+  
+  .split-container {
+    padding: 15px;
+    gap: 25px;
   }
 }

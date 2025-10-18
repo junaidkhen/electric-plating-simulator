@@ -20,9 +20,23 @@ function App() {
   return (
     <div className="app dark-theme">
       <div className="split-container">
-        {/* LEFT PANEL - THEORY */}
+        {/* SIMULATION SECTION - NOW AT TOP */}
+        <section className="sim-panel">
+          {/* 🔥 NEW: Blue Color Box Heading */}
+          <div className="simulation-heading">
+            <div className="heading-box">
+              <h1 className="main-heading">⚡ Electric Plating</h1>
+            </div>
+          </div>
+          
+          <Beaker running={running} />
+          <button onClick={handleSimulate} disabled={loading}>
+            {loading ? "Simulating..." : "Start Simulation"}
+          </button>
+        </section>
+
+        {/* THEORY SECTION - NOW AT BOTTOM */}
         <section className="text-panel">
-          <h1 className="main-heading">⚡ Electric Plating </h1>
           <h2>About the Experiment</h2>
           <p>
             Electroplating is a technique of depositing a thin film of another metal on the surface of a metal.
@@ -36,14 +50,6 @@ function App() {
             <b>(+)</b> Ag(s) → Ag⁺(aq) + e⁻ <br />
             <b>(-)</b> Ag⁺(aq) + e⁻ → Ag(s)
           </div>
-        </section>
-
-        {/* RIGHT PANEL - SIMULATOR */}
-        <section className="sim-panel">
-          <Beaker running={running} />
-          <button onClick={handleSimulate} disabled={loading}>
-            {loading ? "Simulating..." : "Start Simulation"}
-          </button>
         </section>
       </div>
     </div>

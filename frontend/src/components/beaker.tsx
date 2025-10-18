@@ -1,4 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+// Import image directly
+import imagePath from '../assets/image.png';
 
 interface BeakerProps {
   running: boolean;
@@ -6,6 +9,7 @@ interface BeakerProps {
 
 const Beaker: React.FC<BeakerProps> = ({ running }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -26,6 +30,16 @@ const Beaker: React.FC<BeakerProps> = ({ running }) => {
       { x: margin + 80, y: beakerBottom - 120, r: 20, label: "Ag+" },
       { x: margin + 250, y: beakerBottom - 120, r: 20, label: "Ag+" },
     ];
+
+    // Load image - FIXED APPROACH
+    const img = new Image();
+    img.src = imagePath; // Use imported image path
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+    img.onerror = () => {
+      console.error("Image failed to load:", imagePath);
+    };
 
     const drawBeaker = () => {
       ctx.clearRect(0, 0, width, height);
@@ -69,7 +83,7 @@ const Beaker: React.FC<BeakerProps> = ({ running }) => {
       ctx.fillStyle = "#fff";
       ctx.fillText("−", rightElectrodeX + 10, batteryY + 18);
 
-      // 🔌 Connecting wires
+      // 🔌 Connecting wires (vertical wires only)
       ctx.strokeStyle = "#f0f0f0";
       ctx.lineWidth = 4;
 
@@ -83,11 +97,27 @@ const Beaker: React.FC<BeakerProps> = ({ running }) => {
       ctx.lineTo(rightElectrodeX + 12, beakerBottom - waterHeight - 30);
       ctx.stroke();
 
-      // Top battery connection
-      ctx.beginPath();
-      ctx.moveTo(leftElectrodeX + batteryWidth + 10, batteryY + batteryHeight / 2);
-      ctx.lineTo(rightElectrodeX - 20, batteryY + batteryHeight / 2);
-      ctx.stroke();
+      // 🖼️ REPLACED: Top horizontal line with your image
+      if (imageLoaded) {
+        const imageX = leftElectrodeX + batteryWidth - 5;
+        const imageY = batteryY + batteryHeight / 2 - 15; // Adjusted Y position
+        const imageWidth = (rightElectrodeX - 20) - (leftElectrodeX + batteryWidth - 5);
+        const imageHeight = 40; // Increased height from 20 to 40
+        
+        ctx.drawImage(img, imageX, imageY, imageWidth, imageHeight);
+
+        // 🔋 NEW: "Battery" text below the image - Center aligned
+        ctx.fillStyle = "#ffffff"; // White color
+        ctx.font = "bold 20px Arial"; // Same size as Ag text
+        ctx.textAlign = "center";
+        ctx.fillText("Battery", width / 2, imageY + imageHeight + 25);
+      } else {
+        // Fallback: Draw line if image not loaded
+        ctx.beginPath();
+        ctx.moveTo(leftElectrodeX + batteryWidth + 10, batteryY + batteryHeight / 2);
+        ctx.lineTo(rightElectrodeX - 20, batteryY + batteryHeight / 2);
+        ctx.stroke();
+      }
 
       // ✨ AgNO3 text at bottom of water
       ctx.fillStyle = "#000";
@@ -99,13 +129,9 @@ const Beaker: React.FC<BeakerProps> = ({ running }) => {
       ctx.fillStyle = "#000";
       ctx.font = "bold 20px Arial";
       ctx.textAlign = "center";
-      ctx.fillText("Ag", leftElectrodeX + 12, beakerBottom + -35); // electrode under
-    };
+      ctx.fillText("Ag", leftElectrodeX + 12, beakerBottom - 35);
 
-    let animationFrame: number;
-    const animate = () => {
-      drawBeaker();
-
+      // ✨ Bubbles animation (only when running)
       if (running) {
         ctx.font = "16px Arial";
         ctx.textAlign = "center";
@@ -121,17 +147,26 @@ const Beaker: React.FC<BeakerProps> = ({ running }) => {
           ctx.fillText(b.label, b.x, b.y + 5);
 
           // Left → Right slow
-          b.x += 2; // slower speed
+          b.x += 2;
           if (b.x > width - margin - 60) b.x = margin + 80;
         });
       }
+    };
 
+    let animationFrame: number;
+    
+    const animate = () => {
+      drawBeaker();
       animationFrame = requestAnimationFrame(animate);
     };
 
     animate();
-    return () => cancelAnimationFrame(animationFrame);
-  }, [running]);
+
+    // Cleanup
+    return () => {
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [running, imageLoaded]);
 
   return <canvas ref={canvasRef} width={600} height={420} />;
 };
